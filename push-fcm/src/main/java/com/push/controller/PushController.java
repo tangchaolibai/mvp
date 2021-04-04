@@ -1,2 +1,3 @@
-package com.push.controller;public class PushController {
+package com.push.controller;
+public class PushController {
 }

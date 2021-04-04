@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public  String bizExceptionHandler(HttpServletRequest req, Exception e){
+    public  String PushExceptionHandler(HttpServletRequest req, Exception e){
         log.error("发生业务异常！原因是：{}",e.getMessage());
         return e.getMessage();
     }

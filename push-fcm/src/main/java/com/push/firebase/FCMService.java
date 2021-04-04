@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,46 @@ public class FCMService {
 
     private Logger logger = LoggerFactory.getLogger(FCMService.class);
 
-    private Message.Builder getMessageBuilder(PushMessage pushMessage){
+    public List<String> sendMessageByTokens(PushMessage pushMessage){
+
+        try {
+            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(getMulticastMessage(pushMessage));
+            if (response.getFailureCount() > 0){
+                List<SendResponse> responses = response.getResponses();
+                List<String> failedTokens = new ArrayList<>();
+                for (int i = 0; i < responses.size(); i++) {
+                    if (!responses.get(i).isSuccessful()){
+                        failedTokens.add(pushMessage.getTokens().get(i));
+                    }
+                }
+                return failedTokens;
+            }
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String sendMessageBySingleTokenOrTopic(PushMessage pushMessage){
+        Message message = getMessage(pushMessage);
+        String messageId = "";
+        try {
+            messageId = FirebaseMessaging.getInstance().send(message);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        return messageId;
+    }
+
+    private MulticastMessage getMulticastMessage(PushMessage pushMessage){
+        return MulticastMessage.builder()
+                .setAndroidConfig(getAndroidConfig(pushMessage))
+                .setApnsConfig(getApnsConfig(pushMessage))
+                .addAllTokens(pushMessage.getTokens())
+                .build();
+    }
+
+    private Message getMessage(PushMessage pushMessage){
         Message.Builder builder = Message.builder()
                 .setAndroidConfig(getAndroidConfig(pushMessage))
                 .setApnsConfig(getApnsConfig(pushMessage));
@@ -28,9 +68,7 @@ public class FCMService {
             builder.setTopic(topic);
         }
 
-        List<String> tokens = pushMessage.getTokens();
-
-        return null;
+        return builder.build();
     }
 
     //Apple

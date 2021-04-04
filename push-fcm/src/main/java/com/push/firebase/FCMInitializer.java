@@ -1,2 +1,4 @@
-package com.push.firebase;public class FCMInitializer {
+package com.push.firebase;
+
+public class FCMInitializer {
 }

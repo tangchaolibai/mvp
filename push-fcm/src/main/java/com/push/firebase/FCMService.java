@@ -1,2 +1,5 @@
-package com.push.firebase;public class FCMService {
+package com.push.firebase;
+
+public class FCMService {
+
 }

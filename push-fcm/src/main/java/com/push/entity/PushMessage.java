@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class Message {
+public class PushMessage {
     private String platform;
     private Long ttl;
     private Map<String,Object> data;
     private String priority;
     private List<String> tokens;
-    private List<String> topics;
+    private String topic;
     private String icon;
     private String color;
     private String sound;

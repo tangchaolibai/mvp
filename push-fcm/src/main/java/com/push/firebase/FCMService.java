@@ -37,9 +37,10 @@ public class FCMService {
     }
 
     public String sendMessageBySingleTokenOrTopic(PushMessage pushMessage){
-        Message message = getMessage(pushMessage);
+        Message.Builder builder = getMessageBuilder(pushMessage);
         String messageId = "";
         try {
+            Message message = builder.setToken(pushMessage.getTokens().get(0)).build();
             messageId = FirebaseMessaging.getInstance().send(message);
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
@@ -55,20 +56,22 @@ public class FCMService {
                 .build();
     }
 
-    private Message getMessage(PushMessage pushMessage){
+    private Message.Builder  getMessageBuilder(PushMessage pushMessage){
         Message.Builder builder = Message.builder()
                 .setAndroidConfig(getAndroidConfig(pushMessage))
                 .setApnsConfig(getApnsConfig(pushMessage));
 
         String topic = pushMessage.getTopic();
-        boolean in = topic.contains("in");
-        if (in){
-            builder.setCondition(topic);
-        }else {
-            builder.setTopic(topic);
+        if (!StringUtils.isEmpty(topic)){
+            boolean in = topic.contains("in");
+            if (in){
+                builder.setCondition(topic);
+            }else {
+                builder.setTopic(topic);
+            }
         }
 
-        return builder.build();
+        return builder;
     }
 
     //Apple

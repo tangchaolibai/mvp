@@ -1,5 +1,6 @@
 package com.push.controller;
 
+import com.push.common.ResponseResult;
 import com.push.entity.PushMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,11 @@ import java.util.List;
 public class PushController {
 
     @GetMapping("test")
-    public String test(){
-        int a = 1/0;
+    public ResponseResult test(){
 
-        return "success";
+
+
+        return null;
     }
 
     @PostMapping("PushMessage")

@@ -1,0 +1,303 @@
+swagger: '2.0'
+info:
+  description: MVPMS  Microservice RESTful API
+  version: 0.0.1
+  title: MVPMS  Microservice
+host: 'localhost:9000'
+basePath: /mvp-ms-
+tags:
+  - name: MVPMS  Module
+    description:  related APIs
+schemes:
+  - http
+paths:
+  /searchVideos:
+    post:
+      tags:
+        - MVPMS  Search Videos Module
+      summary: Search Videos
+      description: Search Videos
+      operationId: SearchVideos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: keyWord
+          description: keyWord of search
+          required: true
+          schema:
+            $ref: '#/definitions/SearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SearchVideosResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /searchPhotos:
+    post:
+      tags:
+        - MVPMS  Search Photos Module
+      summary: Search Photos
+      description: Search Photos
+      operationId: SearchPhotos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: keyWord
+          description: keyWord of search
+          required: true
+          schema:
+            $ref: '#/definitions/SearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SearchPhotosResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /searchUsers:
+    post:
+      tags:
+        - MVPMS  Search Users Module
+      summary: Search Users
+      description: Search Users
+      operationId: SearchUsers
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: keyWord
+          description: keyWord of search
+          required: true
+          schema:
+            $ref: '#/definitions/SearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SearchUsersResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /searchProducts:
+    post:
+      tags:
+        - MVPMS  Search Products Module
+      summary: Search Products
+      description: Search Products
+      operationId: SearchProducts
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: keyWord
+          description: keyWord of search
+          required: true
+          schema:
+            $ref: '#/definitions/SearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SearchProductsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+definitions:
+  ResponseResult:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Response Result Code. It could be SUCCESS or specific error code.
+      message:
+        type: string
+        description: Response Result Message. It will be the detail explanation for specific error code.
+    title: ResponseResult
+    description: This entity is used to describe the response result.
+  
+  ExceptionResponse:
+    type: object
+    properties:
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: ExceptionResponse
+    description: This entity is used to describe an exception response.
+   
+  SearchRequest:
+    type: object
+    properties:
+      keyWord:
+        type: string
+        description: Keyword of search.
+    title: SearchVideosRequest
+    description: This entity is used to search request.
+   
+  SearchVideosResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/SearchVideosResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: SearchVideosResponse
+    description: This entity is search videos response.
+  SearchVideosResponseData:
+    type: object
+    properties:
+      videos:
+        type: array
+        description: search videos
+        items:
+          $ref: '#/definitions/VideoResponseData'
+    title: SearchVideosResponseData
+    description: This entity is used to search videos response data.
+  VideoResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: video id
+      name:
+        type: string
+        description: video name
+    title: VideosResponseData
+    description: This entity is used to videos response data.
+    
+  SearchPhotosResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/SearchPhotosResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: SearchPhotosResponse
+    description: This entity is search photos response.
+  SearchPhotosResponseData:
+    type: object
+    properties:
+      photos:
+        type: array
+        description: search photos
+        items:
+          $ref: '#/definitions/PhotoResponseData'
+    title: SearchPhotosResponseData
+    description: This entity is used to search photos response data.
+  PhotoResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: photo id
+      name:
+        type: string
+        description: photo name
+    title: PhotosResponseData
+    description: This entity is used to photo response data.
+
+  SearchUsersResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/SearchUsersResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: SearchUsersResponse
+    description: This entity is search users response.
+  SearchUsersResponseData:
+    type: object
+    properties:
+      users:
+        type: array
+        description: search users
+        items:
+          $ref: '#/definitions/UserResponseData'
+    title: SearchUsersResponseData
+    description: This entity is used to search users response data.
+  UserResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: user id
+      name:
+        type: string
+        description: user name
+    title: UserResponseData
+    description: This entity is used to user response data.
+    
+  SearchProductsResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/SearchProductsResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: SearchProductsResponse
+    description: This entity is search products response.
+  SearchProductsResponseData:
+    type: object
+    properties:
+      products:
+        type: array
+        description: search products
+        items:
+          $ref: '#/definitions/ProductResponseData'
+    title: SearchProductsResponseData
+    description: This entity is used to search products response data.
+  ProductResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: product id
+      name:
+        type: string
+        description: product name
+    title: ProductResponseData
+    description: This entity is used to product response data.

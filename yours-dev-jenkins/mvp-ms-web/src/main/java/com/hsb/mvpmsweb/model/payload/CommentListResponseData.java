@@ -1,0 +1,30 @@
+package com.hsb.mvpmsweb.model.payload;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.ToString;
+
+import java.util.List;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+
+/**
+ * CommentListResponseData
+ */
+@Data
+@Validated
+@ToString
+public class CommentListResponseData {
+
+	@JsonProperty("commentCount")
+	private Integer commentCount = null;
+
+	@JsonProperty("shareId")
+	private Integer shareId = null;
+
+	@JsonProperty("commentList")
+	@Valid
+	private List<CommentResponseData> commentList = null;
+
+}
+

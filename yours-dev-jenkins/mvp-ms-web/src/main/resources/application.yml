@@ -1,0 +1,90 @@
+spring:
+   web-datasource:
+      jdbcUrl: jdbc:mysql://12.1.1.30:3306/mvptest?autoReconnect=yes&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      platform: mysql
+   redis:
+      host: 12.1.1.30
+      port: 6379
+      password: 123456
+      database: 6
+   servlet:
+      multipart:
+         #Maximum value of a single file
+         max-file-size: 20MB   
+         #The maximum value of all files requested at one time
+         max-request-size: 200MB   
+
+server:
+   port: 8080
+   servlet:
+      context-path: /yours
+      
+mybatis-plus:
+   mapper-locations: classpath:mapper/*.xml
+   type-aliases-package: com.hsb.mvpmsweb.model.domain
+   configuration:
+#      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      map-underscore-to-camel-case: true
+   global-config:
+      id-type: 0
+      field-strategy: 2
+      capital-mode: true
+      refresh-mapper: true
+     
+#jwt config
+jwt:
+   auth-header-key: Authorization
+   token-prefix: Bearer 
+   # 密钥, 经过Base64加密, 可自行替换
+   base64Secret: MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=
+   # 过期时间，时间戳
+   expiresSecond: 172800
+   
+knife4j:
+   cors: true
+   production: false
+   
+#aes secret key for password 
+aes:
+  password:
+    secretKey: LKrB65gWGQrfBISH
+#mvp upload file path config for uploadShare
+mvp:
+  file:
+    path: /webapps/manager/useruploadFile
+   
+#swiftpass 
+swiftpass:
+  findOrder:
+      url: https://payintl-test.wepayez.com/pay/gateway
+      service: unified.trade.query
+      xml:
+         enable: false
+         request: /temp/xml
+         response: /temp/xml
+  mchId: 305510000018
+  userKey: 5a9bb88adba3390339646fd791462a0c
+  preorder:
+    url: https://payintl-test.wepayez.com/pay/gateway
+    request:
+      notify_url: https://12.1.1.31:8888/yours/payResultNotify
+      callback_url: 
+  refund:
+    service: unified.trade.refund
+    
+#search product   
+product:
+   url: http://api.errand.online
+   photoUrl: http://shop.errand.online/media
+   contentUrl: 'http://shop.errand.online/#/shop/goodsdetail'
+   findAll:
+      url: /api/goods/list/all
+   findByName:
+      url: /api/goods/query/byname
+   findOne:
+      url: /api/goods/query/one
+   update: 
+      url: /api/goods/put/one  

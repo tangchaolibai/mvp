@@ -1,0 +1,493 @@
+swagger: '2.0'
+info:
+  description: MVP Microservice RESTful API
+  version: 0.0.1
+  title: MVP Microservice
+host: 'localhost:8890'
+basePath: /mvp/v1
+tags:
+  - name: MVP SHARE Module
+    description: MVP SHARE Module APIs
+schemes:
+  - http
+paths:
+  /mvp/post:
+    get:
+      tags:
+        - MVP SHARE Module
+      summary: Get Draft Content
+      description: Get Draft Content
+      operationId: getDraftContent
+      produces:
+        - application/json
+      parameters:
+      - name: "userId"
+        in: "query"
+        description: "The userId of User"
+        required: true
+        type: "integer"
+        maximum: 11.0
+        minimum: 11.0
+        format: "int32"
+      - name: "token"
+        in: "query"
+        description: "The token for proof"
+        required: true
+        type: "string" 
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PostContentResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+    post:
+      tags:
+        - MVP SHARE Module
+      summary: Upload Content
+      description: Upload Content
+      operationId: postContent
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: socialShare
+          description: SocialShare Request
+          required: true
+          schema:
+            $ref: '#/definitions/SocialShareRequest'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+    post:
+      tags:
+        - MVP SHARE Module
+      summary: Like Content
+      description: Like Content
+      operationId: likeContent
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: socialLike
+          description: like of somebody's content
+          required: true
+          schema:
+            $ref: '#/definitions/SocialLikeRequest'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+    delete:
+      tags:
+        - MVP SHARE Module
+      summary: Delete Content
+      description: Delete Content
+      operationId: deleteContent
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: "shareId"
+        in: "query"
+        description: "The shareId of content"
+        required: true
+        type: "integer"
+        maximum: 11.0
+        minimum: 11.0
+        format: "int32"
+      - name: "token"
+        in: "query"
+        description: "The token for proof"
+        required: true
+        type: "string" 
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+    delete:
+      tags:
+        - MVP SHARE Module
+      summary: Cancle Like Content
+      description: Cancle Like Content
+      operationId: cancelLike
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: "likeId"
+        in: "query"
+        description: "The likeId of like"
+        required: true
+        type: "integer"
+        maximum: 11.0
+        minimum: 11.0
+        format: "int32"
+      - name: "token"
+        in: "query"
+        description: "The token for proof"
+        required: true
+        type: "string" 
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+    post:
+      tags:
+        - MVP SHARE Module
+      summary: Share Content to Internal Friends
+      description: Share Content to Internal Friends
+      operationId: shareContent
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: socialMsg
+          description: massage notification
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SocialMsgRequest'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+definitions:
+  PostContentResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/PostContentResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: PostContentResponse
+    description: This entity is used to describe an App Profile response.
+  PostContentResponseData:
+    type: object
+    properties:
+      shareId:
+        type: integer
+        format: int32
+        description: Unique identifier of Post Content
+      userId:
+        type: integer
+        format: int32
+        description: UserId of Content
+      postStatus:
+        type: string
+        description: Post Status of Content
+      message:
+        type: string
+        description: Text Message of Content 
+      photos:
+          $ref: '#/definitions/PhotosData'
+      videos:
+        $ref: '#/definitions/VideosData'
+      fileType:
+        type: string
+        description: FileType of Content 
+      location:
+        type: string
+        description: Location of Content 
+      toUserIds:
+        type: array
+        description: ToUserIds of Content 
+        items:
+          type: integer
+          format: int32
+      shareCount:
+        type: string
+        description: ShareCount of Content   
+      createTime:
+        type: string
+        description: CreateTime of Content 
+      lastUpdateTime:
+        type: string
+        description: Last Update Time of Content 
+    title: PostContentResponseData
+    description: This entity is used to describe an Content response data.
+  PhotosData:
+    type: object
+    properties:
+      photoId:
+        type: integer
+        format: int32
+        description: Unique identifier of photo
+      shareId:
+        type: integer
+        format: int32
+        description: shareId of content the photo belong to
+      photoName:
+        type: string
+        description: photoName of photo
+      photoDes:
+        type: string
+        description: photoDes of photo
+      photoLoc:
+        type: string
+        description: photoName of photo
+      photoUrl:
+        type: string
+        description: photoName of photo
+      createTime:
+        type: string
+        description: CreateTime of photo
+    title: PhotosData
+    description: This entity is used to describe a photo response data.  
+  VideosData:
+    type: object
+    properties:
+      videoId:
+        type: integer
+        format: int32
+        description: Unique identifier of video
+      shareId:
+        type: integer
+        format: int32
+        description: shareId of content the video belong to
+      videoName:
+        type: string
+        description: photoName of video
+      videoDes:
+        type: string
+        description: photoDes of video
+      videoLoc:
+        type: string
+        description: photoName of video
+      videoSeconds:
+        type: string
+        description: photoName of video
+      thumbnailUrl:
+        type: string
+        description: thumbnailUrl of video
+      createTime:
+        type: string
+        description: CreateTime of video
+    title: VideosData
+    description: This entity is used to describe a video response data.  
+  SocialShareRequest:
+    type: object
+    required:
+      - shareId
+    properties:
+      shareId:
+        type: integer
+        format: int32
+        description: Unique identifier of Post Content
+      userId:
+        type: integer
+        format: int32
+        description: UserId of Content
+      postStatus:
+        type: string
+        description: Post Status of Content
+      message:
+        type: string
+        description: Text Message of Content 
+      photos:
+          $ref: '#/definitions/PhotosData'
+      videos:
+        $ref: '#/definitions/VideosData'
+      fileType:
+        type: string
+        description: FileType of Content 
+      location:
+        type: string
+        description: Location of Content 
+      toUserIds:
+        type: array
+        description: ToUserIds of Content 
+        items:
+          type: integer
+          format: int32
+      shareCount:
+        type: string
+        description: ShareCount of Content   
+      createTime:
+        type: string
+        description: CreateTime of Content 
+      lastUpdateTime:
+        type: string
+        description: Last Update Time of Content 
+    title: SocialShareRequest
+    description: This entity is used to describe a Content Request.
+  SocialLikeRequest:
+    type: object
+    required:
+      - likeId
+    properties:
+      likeId:
+        type: integer
+        format: int32
+        description: Unique identifier of Post Content
+      shareId:
+        type: integer
+        format: int32
+        description: ShareId of Content
+      fromUserId:
+        type: integer
+        format: int32
+        description: userId of who like the content   
+      createTime:
+        type: string
+        description: CreateTime of Content 
+    title: SocialLikeRequest
+    description: This entity is used to describe like of Content Request.
+  SocialMsgRequest:
+    type: object
+    required:
+      - msgId
+    properties:
+      msgId:
+        type: integer
+        format: int32
+        description: Unique identifier of message
+      shareId:
+        type: integer
+        format: int32
+        description: ShareId of Content
+      fromUserId:
+        type: integer
+        format: int32
+        description: userId of who send the message
+      toUserId:
+        type: integer
+        format: int32
+        description: userId of who receive the message
+      msgType:
+        type: string
+        description: msgType of message
+      message:
+        type: string
+        description: text of message
+      isRead:
+        type: string
+        description: text of message
+      createTime:
+        type: string
+        description: CreateTime of message 
+    title: SocialMsgRequest
+    description: This entity is used to describe like of message Request.    
+  ExceptionResponse:
+    type: object
+    properties:
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: ExceptionResponse
+    description: This entity is used to describe an exception response.
+  ResponseResult:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Response Result Code. It could be SUCCESS or specific error code.
+      message:
+        type: string
+        description: Response Result Message. It will be the detail explanation for specific error code.
+    title: ResponseResult
+    description: This entity is used to describe the response result.

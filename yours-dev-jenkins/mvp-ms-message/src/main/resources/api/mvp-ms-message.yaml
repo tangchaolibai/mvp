@@ -1,0 +1,498 @@
+swagger: '2.0'
+info:
+  description: MVPMS Message Microservice RESTful API
+  version: 0.0.1
+  title: MVPMS Message Microservice
+host: 'localhost:9001'
+basePath: /mvp-ms-message
+tags:
+  - name: MVP Message Module
+    description: Message related APIs
+schemes:
+  - http
+paths:
+  /count/{userId}:
+    post:
+      tags:
+        - MVPMS Message Get Unread Notifications Count Module
+      summary: Get Unread Notifications Count
+      description: Get Unread Notifications Count
+      operationId: GetUnreadNotificationsCount
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CountResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /notifications/{userId}:
+    post:
+      tags:
+        - MVPMS Message Get Notifications Module
+      summary: Get Notifications
+      description: Get Notifications
+      operationId: GetNotifications
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/GetNotificaitonsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /delNotification/{userId}?msgId=1000:
+    delete:
+      tags:
+        - MVPMS Message delete notificaiton Module
+      summary: Delete Notificaiton
+      description: Delete Notificaiton
+      operationId: DeleteNotificaiton
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user id
+          required: true
+          type: string
+        - in: query
+          name: msgId
+          description: message id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DelNotificationResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /system/{userId}:
+    post:
+      tags:
+        - MVPMS Message Get System Message Module
+      summary: Get System Message
+      description: Get System Message
+      operationId: GetSystemMessage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user id
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/GetSystemResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+      
+  /likes/{userId}:
+    post:
+      tags:
+        - MVPMS Message Get Likes Module
+      summary: Get Likes
+      description: Get Likes
+      operationId: GetLikes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user Id
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/GetLikesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+
+  /AT/{userId}:
+    post:
+      tags:
+        - MVPMS Message Get AT Me Module
+      summary: Get AT Me
+      description: Get AT Me
+      operationId: GetATMe
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user Id
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/GetATResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+
+  /comments/{userId}:
+    post:
+      tags:
+        - MVPMS Message Get Comments Module
+      summary: Get Comments
+      description: Get Comments
+      operationId: GetComments
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userId
+          description: user Id
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/GetCommentsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+            
+definitions:
+  ResponseResult:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Response Result Code. It could be SUCCESS or specific error code.
+      message:
+        type: string
+        description: Response Result Message. It will be the detail explanation for specific error code.
+    title: ResponseResult
+    description: This entity is used to describe the response result.
+  
+  ExceptionResponse:
+    type: object
+    properties:
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: ExceptionResponse
+    description: This entity is used to describe an exception response.
+   
+  CountResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/CountResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: CountResponse
+    description: This entity is unRead notificaiton count response.
+  CountResponseData:
+    type: object
+    properties:
+      count:
+        type: string
+        description: unRead notificaiton count
+    title: CountResponseData
+    description: This entity is used to unRead notificaiton count response data.
+    
+  GetNotificaitonsResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/GetNotificaitonsResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: getNotificaitonsResponse
+    description: This entity is get notifications response.
+  GetNotificaitonsResponseData:
+    type: object
+    properties:
+      notificaiton:
+        type: array
+        description: notificaitons
+        items:
+          $ref: '#/definitions/MessageResponseData'
+    title: getNotificaitonResponseData
+    description: This entity is used to get notificaitons response data.
+  MessageResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: message id
+      msg_type:
+        type: string
+        description: message type
+      msg:
+        type: string
+        description: message content
+      from_user_id:
+        type: string
+        description: id of who send message to you
+      from_user_name:
+        type: string
+        description: name of who send message to you
+      from_user_img_path:
+        type: string
+        description: image path of who send message to you
+      creation_time:
+        type: string
+        description: send message time
+      is_read:
+        type: char
+        description: if message is read
+    title: MessageResponseData
+    description: This entity is used to message response data.
+
+  DelNotificationResponse:
+    type: object
+    properties:
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: SearchUsersResponse
+    description: This entity is delete notification response.
+    
+  GetSystemResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/GetSystemResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: GetSystemResponse
+    description: This entity is get system messages response.
+  GetSystemResponseData:
+    type: object
+    properties:
+      messages:
+        type: array
+        description: system messages
+        items:
+          $ref: '#/definitions/SystemResponseData'
+    title: GetSystemResponseData
+    description: This entity is used to get system messages response data.
+  SystemResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: message id
+      msg:
+        type: string
+        description: message content
+      creation_time:
+        type: string
+        description: send message time
+      is_read:
+        type: string
+        description: if message is read
+    title: ProductResponseData
+    description: This entity is used to system messages response data.
+    
+  GetLikesResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/GetLikesResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: GetSystemResponse
+    description: This entity is get likes response.
+  GetLikesResponseData:
+    type: object
+    properties:
+      likes:
+        type: array
+        description: likes
+        items:
+          $ref: '#/definitions/LikeResponseData'
+    title: GetLikesResponseData
+    description: This entity is used to get likes response data.
+  LikeResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: like id
+      share_id:
+        type: string
+        description: share id
+      from_user_id:
+        type: string
+        description: id of who like you
+      creation_time:
+        type: string
+        description: like time
+    title: LikeResponseData
+    description: This entity is used to like response data.
+    
+  GetATResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/GetATResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: GetSystemResponse
+    description: This entity is get AT me response.
+  GetATResponseData:
+    type: object
+    properties:
+      replys:
+        type: array
+        description: reply
+        items:
+          $ref: '#/definitions/ATResponseData'
+    title: GetLikesResponseData
+    description: This entity is used to get AT me response data.
+  ATResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: reply id
+      comment_id:
+        type: string
+        description: comment id
+      from_user_id:
+        type: string
+        description: id of who reply you
+      to_user_id:
+        type: string
+        description: id of who get reply
+      reply:
+        type: string
+        description: reply content
+      creation_time:
+        type: string
+        description: reply time
+    title: LikeResponseData
+    description: This entity is used to AT me response data.
+    
+  GetCommentsResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/GetCommentsResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: GetCommentsResponse
+    description: This entity is get comments response.
+  GetCommentsResponseData:
+    type: object
+    properties:
+      comments:
+        type: array
+        description: comments
+        items:
+          $ref: '#/definitions/CommentResponseData'
+    title: GetCommentsResponseData
+    description: This entity is used to get comments response data.
+  CommentResponseData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: comment id
+      share_id:
+        type: string
+        description: share id
+      from_user_id:
+        type: string
+        description: id of who comment to you
+      msg:
+        type: string
+        description: comment content
+      creation_time:
+        type: string
+        description: comment time
+    title: CommentResponseData
+    description: This entity is used to comment response data.

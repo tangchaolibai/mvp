@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>webSocketTest客户端</title>
+</head>
+<script type="text/javascript">
+    var webSocket;
+    if(window.WebSocket){
+        webSocket = new WebSocket("ws://12.1.1.30:1212/websocket");
+        //客户端收到服务器的方法，这个方法就会被回调
+        webSocket.onmessage = function (ev) {
+            var contents = document.getElementById("responseText");
+            contents.value = contents.value +"\n"+ ev.data;
+            var json = JSON.parse(ev.data);
+            //alert(json.content);
+            document.getElementById("img1").src=json.content;
+        }
+ 
+        webSocket.onopen = function (ev) {
+            var contents = document.getElementById("responseText");
+            contents.value = "与服务器端的websocket连接建立";
+        }
+        webSocket.onclose = function (ev) {
+            var contents = document.getElementById("responseText");
+            contents.value =  contents.value +"\n"+ "与服务器端的websocket连接断开";
+        }
+    }else{
+        alert("该环境不支持websocket")
+    }
+ 
+    function sendMessage() {
+        if(window.webSocket){
+            if(webSocket.readyState == WebSocket.OPEN){
+                var contents = document.getElementById("message").value;
+                webSocket.send(contents);
+            }else{
+                alert("与服务器连接尚未建立")
+            }
+        }
+    }
+</script>
+<body>
+	<img src="" id="img1">
+    <form onsubmit="return false;">
+        <h4>客户端输入：</h4>
+        <textarea id = "message" name="message" style="width: 200px;height: 100px"></textarea>
+        <br/>
+        <input type="button" value="发送到服务器" onclick="sendMessage()">
+ 
+        <h4>服务器返回消息：</h4>
+        <textarea id = "responseText" name="message" style="width: 200px;height: 100px"></textarea>
+        <br/>
+        <input type="button" onclick="javascript:document.getElementById('responseText').value=''" value="clear data">
+    </form>
+</body>
+</html>

@@ -1,0 +1,31 @@
+spring:
+   ticket-datasource:
+      jdbcUrl: jdbc:mysql://12.1.1.30:3306/mvptest?autoReconnect=yes&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      platform: mysql
+ 
+server:
+   port: 9002
+   servlet:
+      context-path: /mvp-ms-ticket
+
+actable:
+   table:
+      auto: update
+   model:
+      pack: com.hsb.mvpmsticket.model
+   database:
+      type: mysql
+            
+mybatis:
+   mapper-locations: classpath:mapper/*.xml
+   type-aliases-package: com.hsb.mvpmsticket.model
+   configuration:
+#      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+   global-config:
+      id-type: 0
+      field-strategy: 2
+      capital-mode: true
+      refresh-mapper: true

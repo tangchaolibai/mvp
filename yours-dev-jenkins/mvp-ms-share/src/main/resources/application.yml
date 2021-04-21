@@ -1,0 +1,43 @@
+spring:
+   share-datasource:
+      jdbcUrl: jdbc:mysql://12.1.1.30:3306/mvptest?autoReconnect=yes&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      platform: mysql
+   redis:
+    host: 12.1.1.30
+    port: 6379
+    password: 123456
+    database: 6
+    
+server:
+   port: 8082
+   servlet:
+      context-path: /mvp-ms-share
+
+mybatis:
+   table:
+      auto: update
+   model:
+      pack: com.hsb.mvpmsshare.model
+   database:
+      type: mysql
+            
+mybatis-plus:
+   mapper-locations: classpath:mapper/*.xml
+   type-aliases-package: com.hsb.mvpmsshare.model
+#   configuration:
+#     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+   global-config:
+     id-type: 0
+     field-strategy: 2
+     capital-mode: true
+     refresh-mapper: true
+     
+#jwt config
+jwt:
+  # 密钥, 经过Base64加密, 可自行替换
+  base64Secret: MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=
+  # 过期时间，时间戳
+  expiresSecond: 172800

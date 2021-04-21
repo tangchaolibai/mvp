@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hsb</groupId>
+		<artifactId>mvp-ms-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mvp-ms-assistant</artifactId>
+	<name>mvp-ms-assistant</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <java.version>1.8</java.version>
+        <swagger.version>2.9.2</swagger.version>
+
+        <swagger.codegen.version>2.4.8</swagger.codegen.version>
+
+        <swagger.codegen.project.artifactId>com.hsb.assistant-client</swagger.codegen.project.artifactId>
+        <swagger.codegen.project.artifactDescription>MVPMS Microservice assistant API Client</swagger.codegen.project.artifactDescription>
+        <swagger.codegen.project.groupId>com.hsb</swagger.codegen.project.groupId>
+
+        <swagger.codegen.project.apiPackage>com.hsb.assistant.client.api</swagger.codegen.project.apiPackage>
+        <swagger.codegen.project.modelPackage>com.hsb.assistant.client.model</swagger.codegen.project.modelPackage>
+        <swagger.codegen.project.invokerPackage>com.hsb.assistant.client.invoker</swagger.codegen.project.invokerPackage>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.1.3</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
+    		<artifactId>mybatis-enhance-actable</artifactId>
+    		<version>1.1.1.RELEASE</version>
+		</dependency>
+		<!-- mybatis-plus -->
+		<dependency>
+        	<groupId>com.baomidou</groupId>
+        	<artifactId>mybatis-plus-boot-starter</artifactId>
+        	<version>3.3.2</version>
+    	</dependency>
+    	<!-- mvp-ms-user -->
+    	<dependency>
+        	<groupId>com.hsb</groupId>
+        	<artifactId>mvp-ms-user</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
+    	<!-- mvp-ms-ticket -->
+    	<dependency>
+        	<groupId>com.hsb</groupId>
+        	<artifactId>mvp-ms-ticket</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
+    	<!-- mvp-ms-share -->
+    	<dependency>
+        	<groupId>com.hsb</groupId>
+        	<artifactId>mvp-ms-share</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- Generate API Client project -->
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.swagger</groupId>
+					<artifactId>swagger-codegen-maven-plugin</artifactId>
+					<version>${swagger.codegen.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<inputSpec>${project.basedir}/src/main/resources/api/mvp-ms-assistant.yaml</inputSpec>
+								<language>java</language>
+								<library>resttemplate</library>
+								<output>${project.basedir}/target/mvp-ms-assistant-client</output>
+
+								<apiPackage>${swagger.codegen.project.apiPackage}</apiPackage>
+								<modelPackage>${swagger.codegen.project.modelPackage}</modelPackage>
+								<invokerPackage>${swagger.codegen.project.invokerPackage}</invokerPackage>
+
+								<generateApiTests>false</generateApiTests>
+								<generateModelTests>false</generateModelTests>
+								<addCompileSourceRoot>false</addCompileSourceRoot>
+
+								<configOptions>
+									<sourceFolder>src/main/java</sourceFolder>
+									<java8>true</java8>
+									<groupId>${swagger.codegen.project.groupId}</groupId>
+									<artifactId>${swagger.codegen.project.artifactId}</artifactId>
+									<artifactVersion>${project.version}</artifactVersion>
+									<artifactDescription>${swagger.codegen.project.artifactDescription}
+									</artifactDescription>
+
+									<hideGenerationTimestamp>true</hideGenerationTimestamp>
+									<dateLibrary>java8-localdatetime</dateLibrary>
+								</configOptions>
+							</configuration>
+						</execution>
+						<!--generate server -->
+						<execution>
+							<id>server</id>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<inputSpec>${project.basedir}/src/main/resources/api/mvp-ms-assistant.yaml</inputSpec>
+								<language>spring</language>
+								<library>spring-boot</library>
+								<output>${project.basedir}/target/mvp-ms-assistant-server</output>
+								<apiPackage>com.hsb.mvpmsassistant.api</apiPackage>
+								<modelPackage>com.hsb.mvpmsassistant.payload</modelPackage>
+								<invokerPackage>com</invokerPackage>
+								<generateApiTests>false</generateApiTests>
+								<generateModelTests>false</generateModelTests>
+								<addCompileSourceRoot>false</addCompileSourceRoot>
+								<configOptions>
+									<sourceFolder>src/main/java</sourceFolder>
+									<java8>true</java8>
+									<groupId>com.hsb</groupId>
+									<artifactId>mvp-ms-assistant-server</artifactId>
+									<artifactVersion>0.0.1-SNAPSHOT</artifactVersion>
+									<hideGenerationTimestamp>true</hideGenerationTimestamp>
+									<useTags>true</useTags>
+									<dateLibrary>java8-localdatetime</dateLibrary>
+									<delegatePattern>true</delegatePattern>
+								</configOptions>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>io.swagger</groupId>
+										<artifactId>swagger-codegen-maven-plugin</artifactId>
+										<versionRange>[${swagger.codegen.version},)</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.20.1</version>
+					<configuration>
+						<skipTests>true</skipTests>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

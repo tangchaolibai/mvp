@@ -1,0 +1,224 @@
+swagger: '2.0'
+info:
+  description: MVP USER Microservice RESTful API
+  version: 0.0.1
+  title: MVP USER Microservice
+host: 'localhost:8080'
+basePath: /yours
+tags:
+  - name: MVP USER Module
+    description: MVP USER related APIs
+schemes:
+  - http
+paths:
+  /login:
+    post:
+      tags:
+        - MVP USER Module
+      summary: Login Yours System
+      description: Login Yours System
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: loginRequest
+          description: Login Request
+          required: true
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+  /register:
+    post:
+      tags:
+        - MVP USER Module
+      summary: Register account for Yours System
+      description: Register account for Yours System
+      operationId: register
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: registerRequest
+          description: Register Request
+          required: true
+          schema:
+            $ref: '#/definitions/RegisterRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/RegisterResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ExceptionResponse'
+      deprecated: false
+definitions:
+  LoginRequest:
+    type: object
+    required:
+      - mobilePhone
+      - password
+    properties:
+      mobilePhone:
+        type: string
+        description: Mobile Phone for logining yours system
+      password:
+        type: string
+        description: Password for logining yours system
+    title: LoginRequest
+    description: This entity is used to describe an Login Request.
+  LoginResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/LoginResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: CriticalNoticeResponse
+    description: This entity is used to describe an Login response.
+  LoginResponseData:
+    type: object
+    properties:
+      token:
+        type: String
+        description: Token for Login Proof
+      userId:
+        type: integer
+        format: int32
+        description: Unique Identifier of User
+      userRole:
+        type: string
+        description: User Role, 0 - Normal User, 1 - Merchant
+      mobilePhone:
+        type: string
+        description: Mobile Phone Number
+      userName:
+        type: string
+        description: User Name
+      nickName:
+        type: string
+        description: User NickName
+      email:
+        type: string
+        description: user email
+      introduction:
+        type: string
+        description: Self Introduction of User
+      gender:
+        type: string
+        description: User Gender, 0 - male, 1 - female
+      dateOfBirth:
+        type: string
+        description: date of user birth
+      location:
+        type: string
+        description: the position of user
+      loginId:
+        type: string
+        description: Login Id of User
+      creationDateTime:
+        type: string
+        description: Creation Timestamp of User Account
+      lastUpdateDateTime:
+        type: string
+        description: Last Update Timestamp of Login
+    title: LoginResponseData
+    description: This entity is used to describe an Login response data.
+  ResponseResult:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Response Result Code. It could be SUCCESS or specific error code.
+      message:
+        type: string
+        description: Response Result Message. It will be the detail explanation for specific error code.
+    title: ResponseResult
+    description: This entity is used to describe the response result.
+  ExceptionResponse:
+    type: object
+    properties:
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: ExceptionResponse
+    description: This entity is used to describe an exception response.
+  RegisterRequest:
+    type: object
+    required:
+      - mobilePhone
+      - password
+    properties:
+      mobilePhone:
+        type: string
+        description: Mobile Phone for Register yours system
+      password:
+        type: string
+        description: Password for Register yours system
+    title: RegisterRequest
+    description: This entity is used to describe an Register Request.
+  RegisterResponse:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/RegisterResponseData'
+      result:
+        description: Response Result.
+        $ref: '#/definitions/ResponseResult'
+    title: CriticalNoticeResponse
+    description: This entity is used to describe an Register response.
+  RegisterResponseData:
+    type: object
+    properties:
+      token:
+        type: String
+        description: Token for Login Proof
+      userId:
+        type: integer
+        format: int32
+        description: Unique Identifier of User
+      nickName:
+        type: string
+        description: User NickName
+    title: RegisterResponseData
+    description: This entity is used to describe an Register response data.
